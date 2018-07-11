@@ -1,0 +1,64 @@
+﻿using System;
+using System.IO;
+
+namespace DocumentMerger
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            bool again = true;
+            while (again)
+            {
+
+                Console.WriteLine("Document Merger\n");
+                Console.Write("Enter the name of the first document: \n");
+                string name = Console.ReadLine();
+                if (name != File.Exists(name))
+                {
+                    Console.WriteLine("File does not exist\n");
+                    return;
+                }
+                Console.Write("Enter the name of the second document: \n");
+                string name2 = Console.ReadLine();
+                if (name2 != File.Exists(name2))
+                {
+                    Console.WriteLine("File does not exist\n");
+                    return;
+                }
+
+                try
+                {
+
+
+                    name = name.Replace(".txt", "");
+
+                    StreamReader reader1 = new StreamReader(name);
+                    StreamReader reader2 = new StreamReader(name2);
+                    string line = reader1.ReadLine();
+                    while (line != null)
+                    {
+                        line = reader1.ReadLine();
+                    }
+                    string line2 = reader2.ReadLine();
+                    while (line2 != null)
+                    {
+                        line2 = reader2.ReadLine();
+                    }
+
+                    StreamWriter writer = new StreamWriter(name + name2);
+                    writer.WriteLine(line + line2);
+                    writer.Close();
+                    Console.WriteLine("{0} was successfully saved. The document contains {1} characters.", writer, line.Length + line2.Length);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Exception: " + e.Message);
+                }
+                Console.Write("Would you like to save another document? (y/n): ");
+                again = Console.ReadLine().ToLower().Equals("y");
+                Console.WriteLine("");
+            }
+        }
+    }
+}
